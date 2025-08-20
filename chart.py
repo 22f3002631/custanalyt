@@ -39,20 +39,29 @@ df = pd.DataFrame(data)
 sns.set_style("whitegrid")
 sns.set_context("talk")
 
-plt.figure(figsize=(8, 8))  # ensures 512x512 pixels at dpi=64
+# Create figure with exact dimensions for 512x512 output
+fig, ax = plt.subplots(figsize=(8, 8))
 
-ax = sns.violinplot(
+# Create violinplot
+violin_plot = sns.violinplot(
     x="Channel", y="ResponseTime", data=df,
-    palette="Set2", inner="quartile", cut=0
+    palette="Set2", inner="quartile", cut=0, ax=ax
 )
 
+# Styling
 ax.set_title("Customer Support Response Times by Channel", fontsize=16, pad=20)
 ax.set_xlabel("Support Channel", fontsize=14)
 ax.set_ylabel("Response Time (minutes)", fontsize=14)
 
+# Rotate x-axis labels for better readability
+plt.xticks(rotation=45)
+
+# Adjust layout to fit within figure
 plt.tight_layout()
 
 # ---------------------------
 # Save chart as exactly 512x512 pixels
 # ---------------------------
-plt.savefig("chart.png", dpi=64, bbox_inches="tight")
+# Use specific DPI calculation: 512 pixels / 8 inches = 64 DPI
+plt.savefig("chart.png", dpi=64, bbox_inches=None,
+            facecolor='white', edgecolor='none')
